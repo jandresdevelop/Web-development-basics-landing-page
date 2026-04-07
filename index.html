@@ -3,10 +3,12 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Web Foundations | How the Internet and Web Development Work</title>
+    <title>
+      Web Foundations | Learn How the Internet and Web Development Work
+    </title>
     <meta
       name="description"
-      content="Learn how the internet works and understand the fundamentals of web development, including HTML, CSS, JavaScript, frontend, and backend concepts."
+      content="Learn how the internet works and understand the fundamentals of web development, including browsers, servers, HTML, CSS, JavaScript, frontend, and backend concepts."
     />
     <meta name="author" content="Jose Andres Hernandez" />
     <meta name="theme-color" content="#0b1020" />
@@ -14,27 +16,36 @@
     <meta property="og:type" content="website" />
     <meta
       property="og:title"
-      content="Web Foundations | How the Internet and Web Development Work"
+      content="Web Foundations | Learn How the Internet and Web Development Work"
     />
     <meta
       property="og:description"
-      content="A dark-themed educational landing page about the internet and the core concepts of web development."
+      content="A dark-themed educational landing page that explains how the internet works and introduces the core concepts of web development."
     />
-    <meta property="og:url" content="#" />
-    <meta property="og:image" content="assets/images/preview-cover.png" />
+    <meta
+      property="og:url"
+      content="https://web-foundations-demo.vercel.app/"
+    />
+    <meta
+      property="og:image"
+      content="https://web-foundations-demo.vercel.app/assets/images/preview-cover.png"
+    />
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta
       name="twitter:title"
-      content="Web Foundations | How the Internet and Web Development Work"
+      content="Web Foundations | Learn How the Internet and Web Development Work"
     />
     <meta
       name="twitter:description"
-      content="A dark-themed educational landing page about the internet and the core concepts of web development."
+      content="A dark-themed educational landing page that explains how the internet works and introduces the core concepts of web development."
     />
-    <meta name="twitter:image" content="assets/images/preview-cover.png" />
+    <meta
+      name="twitter:image"
+      content="https://web-foundations-demo.vercel.app/assets/images/preview-cover.png"
+    />
 
-    <link rel="canonical" href="#" />
+    <link rel="canonical" href="https://web-foundations-demo.vercel.app/" />
     <link rel="icon" href="./assets/favi.ico" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -44,18 +55,38 @@
       rel="stylesheet"
     />
 
+    <link rel="preload" as="image" href="./assets/images/hero-network.webp" />
     <link rel="stylesheet" href="./css/styles.css" />
     <script src="./js/script.js" defer></script>
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "EducationalWebPage",
+        "name": "Web Foundations",
+        "url": "https://web-foundations-demo.vercel.app/",
+        "description": "An educational landing page about internet concepts and the fundamentals of web development.",
+        "author": {
+          "@type": "Person",
+          "name": "Jose Andres Hernandez"
+        }
+      }
+    </script>
   </head>
+
   <body>
     <a href="#main-content" class="skip-link">Skip to main content</a>
 
-    <header class="site-header">
+    <div class="scroll-progress" aria-hidden="true">
+      <span class="scroll-progress-bar"></span>
+    </div>
+
+    <header class="site-header" id="top">
       <div class="topbar">
         <div class="container topbar-inner">
-          <a href="#" class="logo" aria-label="Web Foundations home">
+          <a href="#top" class="logo" aria-label="Web Foundations home">
             <span class="logo-mark" aria-hidden="true">&lt;/&gt;</span>
-            Web Foundations
+            <span class="logo-text">Web Foundations</span>
           </a>
 
           <button
@@ -76,13 +107,13 @@
             aria-label="Primary navigation"
           >
             <ul class="nav-list">
-              <li><a href="#overview">Overview</a></li>
-              <li><a href="#flow">Web Flow</a></li>
-              <li><a href="#stack">Tech Stack</a></li>
-              <li><a href="#architecture">Architecture</a></li>
-              <li><a href="#videos">Videos</a></li>
-              <li><a href="#glossary">Glossary</a></li>
-              <li><a href="#faq">FAQ</a></li>
+              <li><a href="#overview" data-nav-link>Overview</a></li>
+              <li><a href="#flow" data-nav-link>Web Flow</a></li>
+              <li><a href="#stack" data-nav-link>Tech Stack</a></li>
+              <li><a href="#architecture" data-nav-link>Architecture</a></li>
+              <li><a href="#videos" data-nav-link>Videos</a></li>
+              <li><a href="#glossary" data-nav-link>Glossary</a></li>
+              <li><a href="#faq" data-nav-link>FAQ</a></li>
             </ul>
           </nav>
         </div>
@@ -92,51 +123,68 @@
         <div class="container">
           <section class="hero" aria-labelledby="hero-title">
             <div class="hero-content">
-              <div class="hero-copy">
+              <div class="hero-copy reveal">
                 <p class="eyebrow">Interactive web concepts guide</p>
+
                 <h1 id="hero-title">
-                  A visual introduction to how the internet and modern web
-                  development work
+                  Understand how the internet works and how modern websites are
+                  built
                 </h1>
+
                 <p class="hero-description">
-                  Explore the journey from browser request to rendered
-                  interface, understand the role of HTML, CSS, and JavaScript,
-                  and learn how frontend and backend systems work together.
+                  Explore the path from browser request to rendered interface,
+                  learn what HTML, CSS, and JavaScript each do, and understand
+                  how frontend and backend systems work together behind every
+                  modern web experience.
                 </p>
 
                 <div class="hero-actions">
                   <a href="#stack" class="btn btn-primary">Explore concepts</a>
-                  <a href="#videos" class="btn btn-secondary">Open lessons</a>
+                  <a href="#flow" class="btn btn-secondary">See web flow</a>
                 </div>
 
-                <ul class="hero-highlights" aria-label="Learning highlights">
+                <div class="hero-proof" aria-label="Learning highlights">
+                  <div class="proof-badge">Beginner friendly</div>
+                  <div class="proof-badge">Structured learning path</div>
+                  <div class="proof-badge">Frontend + backend overview</div>
+                </div>
+
+                <ul
+                  class="hero-highlights"
+                  aria-label="Core learning highlights"
+                >
                   <li>Internet basics</li>
                   <li>Frontend fundamentals</li>
-                  <li>Clear beginner explanations</li>
+                  <li>Clear technical explanations</li>
                 </ul>
               </div>
 
-              <aside class="hero-panel" aria-label="Learning summary">
+              <aside class="hero-panel reveal" aria-label="Learning summary">
                 <div class="panel-badge">Learning path</div>
 
                 <div class="panel-item">
                   <span class="panel-label">Topic 01</span>
-                  <strong>Internet & web basics</strong>
+                  <strong>Internet and web basics</strong>
                 </div>
 
                 <div class="panel-item">
                   <span class="panel-label">Topic 02</span>
-                  <strong>HTML, CSS, JavaScript</strong>
+                  <strong>HTML, CSS, and JavaScript roles</strong>
                 </div>
 
                 <div class="panel-item">
                   <span class="panel-label">Topic 03</span>
-                  <strong>Frontend vs backend</strong>
+                  <strong>Frontend and backend architecture</strong>
                 </div>
 
                 <div class="panel-item">
                   <span class="panel-label">Topic 04</span>
-                  <strong>Request / response flow</strong>
+                  <strong>Request and response lifecycle</strong>
+                </div>
+
+                <div class="panel-item">
+                  <span class="panel-label">Included resources</span>
+                  <strong>3 guided video lessons + glossary</strong>
                 </div>
               </aside>
             </div>
@@ -148,14 +196,17 @@
     <main id="main-content">
       <section class="section" id="overview" aria-labelledby="overview-title">
         <div class="container">
-          <div class="section-heading">
+          <div class="section-heading reveal">
             <p class="section-kicker">Overview</p>
-            <h2 id="overview-title">What the internet actually enables</h2>
+            <h2 id="overview-title">
+              What the internet actually makes possible
+            </h2>
             <p>
               The internet is the infrastructure that allows connected systems
               to exchange data. The web is one of the services built on top of
-              that infrastructure, enabling browsers and servers to communicate
-              and deliver websites, applications, and digital experiences.
+              that infrastructure, making it possible for browsers and servers
+              to communicate and deliver websites, applications, and digital
+              experiences.
             </p>
           </div>
 
@@ -164,8 +215,8 @@
               <span class="feature-number">01</span>
               <h3>Networks connect devices</h3>
               <p>
-                Information can travel between computers because networks create
-                routes for communication.
+                Information can move between computers because networks create
+                routes that allow systems to communicate.
               </p>
             </article>
 
@@ -173,17 +224,17 @@
               <span class="feature-number">02</span>
               <h3>Servers deliver resources</h3>
               <p>
-                Servers host web pages, files, APIs, and services that browsers
-                request.
+                Servers host pages, files, APIs, and services that browsers can
+                request when a user visits a website.
               </p>
             </article>
 
             <article class="feature-card reveal">
               <span class="feature-number">03</span>
-              <h3>Browsers render content</h3>
+              <h3>Browsers render interfaces</h3>
               <p>
-                Browsers interpret code and transform it into visual interfaces
-                users can interact with.
+                Browsers interpret code and transform it into the visual
+                interfaces users can read, navigate, and interact with.
               </p>
             </article>
 
@@ -191,8 +242,8 @@
               <span class="feature-number">04</span>
               <h3>Protocols define communication</h3>
               <p>
-                Rules like HTTP and HTTPS structure how messages are sent and
-                received on the web.
+                Rules such as HTTP and HTTPS define how requests and responses
+                are structured and exchanged on the web.
               </p>
             </article>
           </div>
@@ -205,17 +256,20 @@
         aria-labelledby="flow-title"
       >
         <div class="container">
-          <div class="section-heading">
+          <div class="section-heading reveal">
             <p class="section-kicker">Web flow</p>
             <h2 id="flow-title">What happens when you open a website</h2>
             <p>
-              A website visit is a quick exchange between client and server. The
+              A website visit is a fast exchange between client and server. The
               browser sends a request, the server returns resources, and the
               browser assembles the final result on screen.
             </p>
           </div>
 
-          <div class="flow-layout">
+          <div
+            class="flow-layout"
+            aria-label="Website request and response flow"
+          >
             <article class="flow-node reveal">
               <span class="node-tag">Client</span>
               <h3>Browser sends request</h3>
@@ -231,8 +285,8 @@
               <span class="node-tag">Server</span>
               <h3>Server processes request</h3>
               <p>
-                The server locates the requested resource and prepares the
-                response.
+                The server locates the requested resource, runs any required
+                logic, and prepares the response.
               </p>
             </article>
 
@@ -240,10 +294,10 @@
 
             <article class="flow-node reveal">
               <span class="node-tag">Render</span>
-              <h3>Browser builds interface</h3>
+              <h3>Browser builds the interface</h3>
               <p>
                 HTML, CSS, and JavaScript are parsed so the browser can display
-                the final page.
+                and enhance the final page.
               </p>
             </article>
           </div>
@@ -252,12 +306,13 @@
 
       <section class="section" id="stack" aria-labelledby="stack-title">
         <div class="container">
-          <div class="section-heading">
+          <div class="section-heading reveal">
             <p class="section-kicker">Core stack</p>
             <h2 id="stack-title">The three main frontend technologies</h2>
             <p>
               These technologies work together, but each one solves a different
-              part of the problem.
+              part of the interface problem: structure, presentation, and
+              behavior.
             </p>
           </div>
 
@@ -266,10 +321,11 @@
               <div class="stack-icon html-icon" aria-hidden="true">
                 <img src="./assets/icons/html-icon.svg" alt="" />
               </div>
+              <p class="stack-tag">Structure</p>
               <h3>HTML</h3>
               <p>
-                Defines the structure and meaning of content using elements like
-                headings, sections, paragraphs, forms, links, and media.
+                Defines the structure and meaning of content using headings,
+                sections, paragraphs, forms, links, and media.
               </p>
             </article>
 
@@ -277,11 +333,11 @@
               <div class="stack-icon css-icon" aria-hidden="true">
                 <img src="./assets/icons/css-icon.svg" alt="" />
               </div>
+              <p class="stack-tag">Presentation</p>
               <h3>CSS</h3>
               <p>
-                Controls the visual layer of the interface, including spacing,
-                layout, colors, responsiveness, animations, and presentation
-                rules.
+                Controls layout, spacing, colors, typography, responsiveness,
+                animation, and the visual presentation of the interface.
               </p>
             </article>
 
@@ -289,10 +345,11 @@
               <div class="stack-icon js-icon" aria-hidden="true">
                 <img src="./assets/icons/js-icon.svg" alt="" />
               </div>
+              <p class="stack-tag">Behavior</p>
               <h3>JavaScript</h3>
               <p>
                 Handles logic and interactivity, making interfaces dynamic and
-                able to react to user input.
+                able to respond to user actions and changing data.
               </p>
             </article>
           </div>
@@ -305,15 +362,15 @@
         aria-labelledby="architecture-title"
       >
         <div class="container">
-          <div class="section-heading">
+          <div class="section-heading reveal">
             <p class="section-kicker">Architecture</p>
             <h2 id="architecture-title">
-              Frontend and backend play different roles
+              Frontend and backend play different but connected roles
             </h2>
             <p>
               The frontend focuses on what users see and interact with. The
-              backend handles the logic, data processing, storage, and
-              server-side operations behind the scenes.
+              backend handles logic, data processing, storage, authentication,
+              and server-side operations behind the scenes.
             </p>
           </div>
 
@@ -322,7 +379,7 @@
               <h3>Frontend</h3>
               <p>
                 The part of the application that runs in the browser and shapes
-                the user experience.
+                the user experience directly.
               </p>
               <ul>
                 <li>Layout and interface structure</li>
@@ -335,7 +392,7 @@
               <h3>Backend</h3>
               <p>
                 The part of the application that runs on the server and manages
-                data and logic.
+                data, security, and application logic.
               </p>
               <ul>
                 <li>Authentication and authorization</li>
@@ -349,14 +406,13 @@
 
       <section class="section" id="videos" aria-labelledby="videos-title">
         <div class="container">
-          <div class="section-heading">
+          <div class="section-heading reveal">
             <p class="section-kicker">Video lessons</p>
-            <h2 id="videos-title">
-              Short learning resources to reinforce the concepts
-            </h2>
+            <h2 id="videos-title">Short lessons to reinforce the concepts</h2>
             <p>
               These videos help connect the written explanations with practical
-              introductions to the core technologies.
+              introductions to the core technologies used in modern web
+              development.
             </p>
           </div>
 
@@ -366,8 +422,8 @@
                 <span class="lesson-label">Module 01</span>
                 <h3>HTML Fundamentals</h3>
                 <p>
-                  Learn how pages are structured and how semantic elements
-                  define content.
+                  Learn how pages are structured and how semantic elements help
+                  define content clearly.
                 </p>
               </div>
               <div class="video-frame">
@@ -385,8 +441,8 @@
                 <span class="lesson-label">Module 02</span>
                 <h3>CSS Styling Basics</h3>
                 <p>
-                  Understand how CSS shapes layout, spacing, color, and visual
-                  design.
+                  Understand how CSS shapes layout, spacing, color, and the
+                  visual language of a web interface.
                 </p>
               </div>
               <div class="video-frame">
@@ -404,8 +460,8 @@
                 <span class="lesson-label">Module 03</span>
                 <h3>JavaScript Essentials</h3>
                 <p>
-                  See how behavior and interactivity are added to web
-                  interfaces.
+                  See how logic and interactivity are introduced to static pages
+                  to create dynamic user experiences.
                 </p>
               </div>
               <div class="video-frame">
@@ -427,12 +483,12 @@
         aria-labelledby="glossary-title"
       >
         <div class="container">
-          <div class="section-heading">
+          <div class="section-heading reveal">
             <p class="section-kicker">Glossary</p>
             <h2 id="glossary-title">Quick terms worth understanding early</h2>
             <p>
-              A small set of definitions that helps reduce confusion when
-              reading documentation or tutorials.
+              A small set of foundational definitions can reduce confusion when
+              reading tutorials, documentation, or beginner learning resources.
             </p>
           </div>
 
@@ -441,6 +497,7 @@
               <h3>Browser</h3>
               <p>Software that requests, interprets, and displays web pages.</p>
             </article>
+
             <article class="glossary-card reveal">
               <h3>Server</h3>
               <p>
@@ -448,23 +505,27 @@
                 requested.
               </p>
             </article>
+
             <article class="glossary-card reveal">
               <h3>URL</h3>
               <p>The address used to locate a resource on the web.</p>
             </article>
+
             <article class="glossary-card reveal">
               <h3>HTTP</h3>
               <p>
                 The protocol that defines how browsers and servers communicate.
               </p>
             </article>
+
             <article class="glossary-card reveal">
               <h3>API</h3>
               <p>
                 An interface that allows systems or applications to exchange
-                data.
+                data in a structured way.
               </p>
             </article>
+
             <article class="glossary-card reveal">
               <h3>Responsive Design</h3>
               <p>
@@ -478,12 +539,12 @@
 
       <section class="section" id="faq" aria-labelledby="faq-title">
         <div class="container">
-          <div class="section-heading">
+          <div class="section-heading reveal">
             <p class="section-kicker">Frequently asked questions</p>
             <h2 id="faq-title">Common beginner questions</h2>
             <p>
-              These are some common doubts people usually have when starting to
-              learn the web.
+              These are some of the most common doubts people have when they are
+              starting to learn how the web works.
             </p>
           </div>
 
@@ -491,8 +552,9 @@
             <details class="faq-item reveal">
               <summary>Should I learn HTML before CSS and JavaScript?</summary>
               <p>
-                Yes. HTML is usually the best starting point because it provides
-                the structure of a webpage.
+                Yes. HTML is usually the best starting point because it defines
+                the structure and meaning of a webpage before styling and logic
+                are added.
               </p>
             </details>
 
@@ -501,18 +563,31 @@
                 What is the difference between the internet and the web?
               </summary>
               <p>
-                The internet is the infrastructure, while the web is one of the
-                services built on top of it.
+                The internet is the infrastructure that connects systems, while
+                the web is one of the services built on top of that
+                infrastructure.
               </p>
             </details>
 
             <details class="faq-item reveal">
               <summary>
-                Do I need backend knowledge to begin with frontend?
+                Do I need backend knowledge before starting frontend?
               </summary>
               <p>
-                No. You can start with frontend first, but backend knowledge
-                becomes valuable as you build more complete applications.
+                No. You can begin with frontend fundamentals first, but backend
+                concepts become increasingly valuable as you build more complete
+                applications.
+              </p>
+            </details>
+
+            <details class="faq-item reveal">
+              <summary>
+                Why should I learn these fundamentals before frameworks?
+              </summary>
+              <p>
+                Understanding the foundations helps you reason better about
+                tools, debug problems more effectively, and learn advanced
+                technologies with much more confidence.
               </p>
             </details>
           </div>
@@ -525,8 +600,8 @@
             <p class="section-kicker">Next step</p>
             <h2 id="cta-title">Start with the foundations, then go deeper</h2>
             <p>
-              Understanding these concepts early makes frameworks, APIs,
-              tooling, and application architecture much easier to learn later.
+              Learning these concepts first makes frameworks, APIs, tooling, and
+              application architecture much easier to understand later.
             </p>
             <a href="#videos" class="btn btn-primary">Continue learning</a>
           </div>
@@ -536,32 +611,33 @@
 
     <footer class="site-footer">
       <div class="container footer-grid">
-        <section>
-          <h2>Web Foundations</h2>
+        <section aria-labelledby="footer-brand-title">
+          <h2 id="footer-brand-title">Web Foundations</h2>
           <p>
             A dark-themed educational landing page focused on internet concepts,
             web fundamentals, and beginner-friendly technical explanations.
           </p>
         </section>
 
-        <nav aria-label="Footer navigation">
-          <h3>Sections</h3>
+        <nav aria-labelledby="footer-nav-title">
+          <h3 id="footer-nav-title">Sections</h3>
           <ul class="footer-links">
             <li><a href="#overview">Overview</a></li>
             <li><a href="#flow">Web Flow</a></li>
             <li><a href="#stack">Tech Stack</a></li>
             <li><a href="#architecture">Architecture</a></li>
+            <li><a href="#videos">Videos</a></li>
             <li><a href="#glossary">Glossary</a></li>
             <li><a href="#faq">FAQ</a></li>
           </ul>
         </nav>
 
-        <section>
-          <h3>Project focus</h3>
+        <section aria-labelledby="footer-focus-title">
+          <h3 id="footer-focus-title">Project focus</h3>
           <p>
             Built as a frontend portfolio piece with a technical visual
-            language, strong contrast, accessible structure, and clearly
-            differentiated design.
+            language, strong contrast, accessible structure, and a clear
+            educational narrative.
           </p>
         </section>
       </div>
