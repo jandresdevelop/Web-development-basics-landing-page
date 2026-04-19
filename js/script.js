@@ -1,39 +1,120 @@
+const SELECTORS = {
+  topbar: ".topbar",
+  navToggle: ".nav-toggle",
+  siteNav: ".site-nav",
+  navOverlay: ".nav-overlay",
+  navLinks: ".site-nav a",
+  navActiveLinks: "[data-nav-link]",
+  mainSections: "main section[id]",
+  progressBar: ".scroll-progress-bar",
+  revealElements: ".reveal",
+};
+
+const BREAKPOINTS = {
+  mobileNav: 768,
+};
+
+function getFocusableElements(container) {
+  if (!container) return [];
+
+  const focusableSelector = [
+    "a[href]",
+    "button:not([disabled])",
+    'input:not([disabled]):not([type="hidden"])',
+    "select:not([disabled])",
+    "textarea:not([disabled])",
+    '[tabindex]:not([tabindex="-1"])',
+  ].join(",");
+
+  return [...container.querySelectorAll(focusableSelector)].filter(
+    (element) =>
+      !element.hasAttribute("disabled") &&
+      !element.getAttribute("aria-hidden") &&
+      element.offsetParent !== null,
+  );
+}
+
 function setupMobileNav() {
-  const navToggle = document.querySelector(".nav-toggle");
-  const siteNav = document.querySelector(".site-nav");
-  const navLinks = document.querySelectorAll(".site-nav a");
+  const navToggle = document.querySelector(SELECTORS.navToggle);
+  const siteNav = document.querySelector(SELECTORS.siteNav);
+  const navOverlay = document.querySelector(SELECTORS.navOverlay);
+  const navLinks = [...document.querySelectorAll(SELECTORS.navLinks)];
 
-  if (!navToggle || !siteNav || !navLinks.length) return;
+  if (!navToggle || !siteNav || !navOverlay || !navLinks.length) return;
 
-  const firstNavLink = navLinks[0];
+  let isMenuOpen = false;
+  let lastFocusedElement = null;
 
-  const openMenu = () => {
-    siteNav.classList.add("is-open");
-    navToggle.setAttribute("aria-expanded", "true");
-    navToggle.setAttribute("aria-label", "Close navigation menu");
-    document.body.style.overflow = "hidden";
-    firstNavLink?.focus();
+  const syncMenuA11yState = (open) => {
+    navToggle.setAttribute("aria-expanded", String(open));
+    navToggle.setAttribute(
+      "aria-label",
+      open ? "Close navigation menu" : "Open navigation menu",
+    );
+
+    navToggle.classList.toggle("is-active", open);
+    siteNav.classList.toggle("is-open", open);
+    navOverlay.classList.toggle("is-visible", open);
+
+    navOverlay.hidden = !open;
+    navOverlay.setAttribute("aria-hidden", String(!open));
+    document.body.classList.toggle("nav-open", open);
   };
 
-  const closeMenu = ({ focusToggle = false } = {}) => {
-    siteNav.classList.remove("is-open");
-    navToggle.setAttribute("aria-expanded", "false");
-    navToggle.setAttribute("aria-label", "Open navigation menu");
-    document.body.style.overflow = "";
+  const openMenu = () => {
+    if (isMenuOpen) return;
 
-    if (focusToggle) {
-      navToggle.focus();
+    isMenuOpen = true;
+    lastFocusedElement = document.activeElement;
+    syncMenuA11yState(true);
+
+    const focusableItems = getFocusableElements(siteNav);
+    focusableItems[0]?.focus();
+  };
+
+  const closeMenu = ({ returnFocus = false } = {}) => {
+    if (!isMenuOpen) return;
+
+    isMenuOpen = false;
+    syncMenuA11yState(false);
+
+    if (returnFocus && lastFocusedElement instanceof HTMLElement) {
+      lastFocusedElement.focus();
+    }
+  };
+
+  const handleTrapFocus = (event) => {
+    if (!isMenuOpen || event.key !== "Tab") return;
+
+    const focusableItems = getFocusableElements(siteNav);
+    if (!focusableItems.length) return;
+
+    const firstElement = focusableItems[0];
+    const lastElement = focusableItems[focusableItems.length - 1];
+    const currentElement = document.activeElement;
+
+    if (event.shiftKey && currentElement === firstElement) {
+      event.preventDefault();
+      lastElement.focus();
+      return;
+    }
+
+    if (!event.shiftKey && currentElement === lastElement) {
+      event.preventDefault();
+      firstElement.focus();
     }
   };
 
   navToggle.addEventListener("click", () => {
-    const isOpen = siteNav.classList.contains("is-open");
-
-    if (isOpen) {
-      closeMenu({ focusToggle: true });
+    if (isMenuOpen) {
+      closeMenu({ returnFocus: true });
     } else {
       openMenu();
     }
+  });
+
+  navOverlay.addEventListener("click", () => {
+    closeMenu({ returnFocus: true });
   });
 
   navLinks.forEach((link) => {
@@ -42,8 +123,18 @@ function setupMobileNav() {
     });
   });
 
+  document.addEventListener("keydown", (event) => {
+    if (!isMenuOpen) return;
+
+    if (event.key === "Escape") {
+      closeMenu({ returnFocus: true });
+      return;
+    }
+
+    handleTrapFocus(event);
+  });
+
   document.addEventListener("click", (event) => {
-    const isMenuOpen = siteNav.classList.contains("is-open");
     if (!isMenuOpen) return;
 
     const clickedInsideNav = siteNav.contains(event.target);
@@ -54,29 +145,21 @@ function setupMobileNav() {
     }
   });
 
-  document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape" && siteNav.classList.contains("is-open")) {
-      closeMenu({ focusToggle: true });
-    }
-  });
-
   window.addEventListener("resize", () => {
-    if (window.innerWidth > 768 && siteNav.classList.contains("is-open")) {
+    if (window.innerWidth > BREAKPOINTS.mobileNav && isMenuOpen) {
       closeMenu();
     }
   });
+
+  syncMenuA11yState(false);
 }
 
 function setupHeaderScrollState() {
-  const topbar = document.querySelector(".topbar");
+  const topbar = document.querySelector(SELECTORS.topbar);
   if (!topbar) return;
 
   const updateHeaderState = () => {
-    if (window.scrollY > 24) {
-      topbar.classList.add("is-scrolled");
-    } else {
-      topbar.classList.remove("is-scrolled");
-    }
+    topbar.classList.toggle("is-scrolled", window.scrollY > 24);
   };
 
   updateHeaderState();
@@ -84,8 +167,8 @@ function setupHeaderScrollState() {
 }
 
 function setupActiveNavLinks() {
-  const sections = document.querySelectorAll("main section[id]");
-  const navLinks = document.querySelectorAll("[data-nav-link]");
+  const sections = [...document.querySelectorAll(SELECTORS.mainSections)];
+  const navLinks = [...document.querySelectorAll(SELECTORS.navActiveLinks)];
 
   if (!sections.length || !navLinks.length) return;
 
@@ -94,6 +177,7 @@ function setupActiveNavLinks() {
   navLinks.forEach((link) => {
     const href = link.getAttribute("href");
     if (!href || !href.startsWith("#")) return;
+
     linksMap.set(href.slice(1), link);
   });
 
@@ -110,7 +194,7 @@ function setupActiveNavLinks() {
     activeLink.setAttribute("aria-current", "true");
   };
 
-  const sectionObserver = new IntersectionObserver(
+  const observer = new IntersectionObserver(
     (entries) => {
       const visibleSections = entries
         .filter((entry) => entry.isIntersecting)
@@ -118,8 +202,8 @@ function setupActiveNavLinks() {
 
       if (!visibleSections.length) return;
 
-      const activeSectionId = visibleSections[0].target.id;
-      setActiveLink(activeSectionId);
+      const currentSectionId = visibleSections[0].target.id;
+      setActiveLink(currentSectionId);
     },
     {
       root: null,
@@ -128,11 +212,11 @@ function setupActiveNavLinks() {
     },
   );
 
-  sections.forEach((section) => sectionObserver.observe(section));
+  sections.forEach((section) => observer.observe(section));
 }
 
 function setupScrollProgress() {
-  const progressBar = document.querySelector(".scroll-progress-bar");
+  const progressBar = document.querySelector(SELECTORS.progressBar);
   if (!progressBar) return;
 
   const updateProgress = () => {
@@ -152,12 +236,14 @@ function setupScrollProgress() {
 }
 
 function setupRevealAnimations() {
-  const revealElements = document.querySelectorAll(".reveal");
+  const revealElements = [
+    ...document.querySelectorAll(SELECTORS.revealElements),
+  ];
+  if (!revealElements.length) return;
+
   const prefersReducedMotion = window.matchMedia(
     "(prefers-reduced-motion: reduce)",
   ).matches;
-
-  if (!revealElements.length) return;
 
   if (prefersReducedMotion) {
     revealElements.forEach((element) => {
@@ -166,21 +252,22 @@ function setupRevealAnimations() {
     return;
   }
 
-  const revealObserver = new IntersectionObserver(
-    (entries, observer) => {
+  const observer = new IntersectionObserver(
+    (entries, revealObserver) => {
       entries.forEach((entry) => {
         if (!entry.isIntersecting) return;
 
         entry.target.classList.add("is-visible");
-        observer.unobserve(entry.target);
+        revealObserver.unobserve(entry.target);
       });
     },
-    { threshold: 0.15 },
+    {
+      threshold: 0.15,
+      rootMargin: "0px 0px -5% 0px",
+    },
   );
 
-  revealElements.forEach((element) => {
-    revealObserver.observe(element);
-  });
+  revealElements.forEach((element) => observer.observe(element));
 }
 
 function init() {
